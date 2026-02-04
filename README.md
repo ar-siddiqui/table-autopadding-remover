@@ -1,18 +1,18 @@
 # Table Autopadding Remover
 
-Obsidian plugin to remove extra padding spaces that Obsidian adds to Markdown tables when files are saved.
+Obsidian plugin to remove extra padding spaces that Obsidian adds to Markdown tables.
 
 ## Motivation
 Obsidian auto-pads Markdown table cells with spaces when you edit a different
 row. That makes `git diff` noisy and harder to review. This plugin removes the
-extra padding on save to keep diffs clean.
+extra padding on demand to keep diffs clean.
 
 Background discussion: https://forum.obsidian.md/t/add-a-configurable-switch-flag-to-disable-auto-padding-of-table-cells/81531
 
 ## Features
 - Normalizes table rows to single-space padding inside cells (e.g. `| a    | b |` → `| a | b |`).
 - Normalizes separator rows (e.g. `| ---- |` → `| --- |`) while preserving alignment colons.
-- Runs automatically on save.
+- Provides commands to normalize the current file or all markdown files.
 - Skips code fences.
 - Handles `[[wikilink|alias]]` pipes without breaking cells.
 
@@ -30,7 +30,7 @@ Background discussion: https://forum.obsidian.md/t/add-a-configurable-switch-fla
 3. Enable the plugin in Settings → Community plugins.
 
 ## Behavior
-Input (on save):
+Input (when running the command):
 ```
 | a    | b |
 |      |   |
@@ -42,6 +42,10 @@ Output:
 ```
 
 The plugin only rewrites table rows that start and end with `|`.
+
+## Commands
+- Normalize tables in current file
+- Normalize tables in all markdown files
 
 ## Development
 This plugin is plain JavaScript (no build step). `main.js` is the file Obsidian loads.

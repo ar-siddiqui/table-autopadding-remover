@@ -10,7 +10,7 @@ extra padding on save to keep diffs clean.
 Background discussion: https://forum.obsidian.md/t/add-a-configurable-switch-flag-to-disable-auto-padding-of-table-cells/81531
 
 ## Features
-- Normalizes table rows to single-space padding inside cells.
+- Normalizes table rows to single-space padding inside cells (e.g. `| a    | b |` → `| a | b |`).
 - Normalizes separator rows (e.g. `| ---- |` → `| --- |`) while preserving alignment colons.
 - Runs automatically on save.
 - Skips code fences.

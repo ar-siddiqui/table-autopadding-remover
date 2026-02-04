@@ -11,6 +11,7 @@ Background discussion: https://forum.obsidian.md/t/add-a-configurable-switch-fla
 
 ## Features
 - Normalizes table rows to single-space padding inside cells.
+- Normalizes separator rows (e.g. `| ---- |` → `| --- |`) while preserving alignment colons.
 - Runs automatically on save.
 - Skips code fences.
 - Handles `[[wikilink|alias]]` pipes without breaking cells.

@@ -78,6 +78,20 @@ function formatCell(text) {
   return ` ${text} `;
 }
 
+function isSeparatorCell(text) {
+  return /^:?-{3,}:?$/.test(text);
+}
+
+function normalizeSeparatorCell(text) {
+  const trimmed = text.trim();
+  const left = trimmed.startsWith(":");
+  const right = trimmed.endsWith(":");
+  if (left && right) return ":---:";
+  if (left) return ":---";
+  if (right) return "---:";
+  return "---";
+}
+
 function normalizeTableLine(line) {
   const prefixMatch = line.match(/^(\s*(?:>+\s*)*)/);
   const prefix = prefixMatch ? prefixMatch[1] : "";
@@ -93,7 +107,11 @@ function normalizeTableLine(line) {
   let cells = rawCells;
   cells = cells.slice(1, cells.length - 1);
   const normalizedCells = cells.map((cell) => cell.trim());
-  const normalized = `${prefix}|${normalizedCells.map(formatCell).join("|")}|`;
+  const isSeparatorRow = normalizedCells.every(isSeparatorCell);
+  const finalCells = isSeparatorRow
+    ? normalizedCells.map(normalizeSeparatorCell)
+    : normalizedCells;
+  const normalized = `${prefix}|${finalCells.map(formatCell).join("|")}|`;
 
   return normalized;
 }

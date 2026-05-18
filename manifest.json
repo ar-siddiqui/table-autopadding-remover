@@ -1,7 +1,7 @@
 {
   "id": "table-autopadding-remover",
   "name": "Table Autopadding Remover",
-  "version": "0.2.0",
+  "version": "alpha-0.2.0",
   "minAppVersion": "1.5.0",
   "description": "Removes extra padding spaces in Markdown tables when leaving a file (and via commands).",
   "author": "Abdul Raheem Siddiqui",

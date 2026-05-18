@@ -150,6 +150,21 @@ function normalizeTables(text) {
 module.exports = class TableAutopaddingRemover extends Plugin {
   onload() {
     this.processing = new Set();
+    this.lastActiveFile = this.app.workspace.getActiveFile();
+
+    this.registerEvent(
+      this.app.workspace.on("active-leaf-change", () => {
+        const previous = this.lastActiveFile;
+        const current = this.app.workspace.getActiveFile();
+        this.lastActiveFile = current;
+
+        // Normalize the file we just navigated away from.
+        // Skip if it's the same file (split-pane focus shuffle) or null (vault just opened).
+        if (previous && previous !== current) {
+          this.normalizeFile(previous);
+        }
+      })
+    );
 
     this.addCommand({
       id: "normalize-current-file",
@@ -168,6 +183,13 @@ module.exports = class TableAutopaddingRemover extends Plugin {
       name: "Normalize tables in all markdown files",
       callback: () => this.normalizeAllFiles(),
     });
+  }
+
+  async onunload() {
+    // Final flush: normalize whatever was active when Obsidian closed or plugin disabled.
+    if (this.lastActiveFile) {
+      await this.normalizeFile(this.lastActiveFile);
+    }
   }
 
   async normalizeFile(file) {
